@@ -71,8 +71,8 @@
   },
   {
     "level": 15,
-    "sequence": [11, 22, 33, 44, 22, 33, 44],
-    "hint": "Repeating pattern with multiples of 11"
+    "sequence": [6,12,18,24,30,36,42],
+    "hint": "multiple of 6"
   },
   {
     "level": 16,
@@ -86,8 +86,8 @@
   },
   {
     "level": 18,
-    "sequence": [2, 3, 5, 9, 17, 33, 49],
-    "hint": "Each = previous + 2×before that"
+    "sequence": [3,6,8,12,14,18,20],
+    "hint": "primenumber + 1"
   },
   {
     "level": 19,
