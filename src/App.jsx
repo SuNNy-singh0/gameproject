@@ -9,9 +9,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<NeuralNexusChallenge />} />
-        <Route path="/play" element={<GameLevel />} />
-        <Route path="/main" element={<DesertAdventure/>} />
+        {/* <Route path="/" element={<NeuralNexusChallenge />} />
+        <Route path="/play" element={<GameLevel />} /> */}
+        <Route path="/" element={<DesertAdventure/>} />
         <Route path="/newgame" element={<DesertAdventureGame/>} />
       </Routes>
     </BrowserRouter>

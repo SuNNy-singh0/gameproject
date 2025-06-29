@@ -5,6 +5,8 @@ import levels from "../data/levels.json";
 
 const DesertAdventure = () => {
   const [progressLevels, setProgressLevels] = React.useState([]);
+  const [isMuted, setIsMuted] = useState(false);
+  const audioRef = React.useRef(null);
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -22,6 +24,36 @@ const DesertAdventure = () => {
     }));
     setProgressLevels(newLevels);
   }, []);
+
+  useEffect(() => {
+    audioRef.current = new Audio('/background.mp3');
+    audioRef.current.volume = 0.1;
+    audioRef.current.loop = true;
+
+    if (!isMuted) {
+      audioRef.current.play().catch(error => {
+        console.log('Audio autoplay was prevented.');
+      });
+    }
+
+    return () => {
+      audioRef.current.pause();
+      audioRef.current.src = '';
+    };
+  }, []);
+
+  const toggleMute = () => {
+    if (audioRef.current) {
+      if (isMuted) {
+        audioRef.current.play().catch(error => {
+          console.log('Audio play was prevented.');
+        });
+      } else {
+        audioRef.current.pause();
+      }
+      setIsMuted(!isMuted);
+    }
+  };
 
   return (
     <div className="desert-adventure-wrapper">
@@ -45,6 +77,9 @@ const DesertAdventure = () => {
         </div>
         <div className="desert-adventure-title">Desert Adventure</div>
         <div className="desert-adventure-settings">
+          <button onClick={toggleMute} className="desert-adventure-mute-button">
+            {isMuted ? '🔇' : '🔊'}
+          </button>
           {/* Settings gear icon (SVG) */}
           <svg width="32" height="32" viewBox="0 0 32 32">
             <circle cx="16" cy="16" r="8" fill="#fff" stroke="#bbb" strokeWidth="2" />
