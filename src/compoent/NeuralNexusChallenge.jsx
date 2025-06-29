@@ -1,29 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FaUserCircle, FaStar, FaCheckCircle, FaRegClock, FaChevronDown, FaMedal, FaTrophy, FaCrown, FaUser } from "react-icons/fa";
 import "./NeuralNexusChallenge.css";
+import levels from "../data/levels.json";
 
-const progressNodes = [
-  { id: 1, completed: true },
-  { id: 2, completed: true },
-  { id: 3, completed: true },
-  { id: 4, completed: true },
-  { id: 5, completed: true },
-  { id: 6, completed: true },
-  { id: 7, current: true },
-  { id: 8 },
-  { id: 9 },
-  { id: 10 },
-  { id: 11 },
-  { id: 12 },
-  { id: 13 },
-  { id: 14 },
-  { id: 15 },
-  { id: 16 },
-  { id: 17 },
-  { id: 18 },
-  { id: 19 },
-  { id: 20 },
-];
+
 
 const leaderboard = [
   { rank: 1, name: "James Donovan", level: 20, stars: 4892, last: "2 hours ago", icon: <FaCrown className="leaderboard-icon gold" /> },
@@ -34,21 +15,36 @@ const leaderboard = [
 ];
 
 const NeuralNexusChallenge = () => {
+  const navigate = useNavigate();
+  const [progressNodes, setProgressNodes] = useState([]);
+
+  useEffect(() => {
+    const savedLevel = localStorage.getItem('currentGameLevel');
+    const currentLevelIndex = savedLevel !== null ? parseInt(savedLevel, 10) : 0;
+    const currentLevelNumber = currentLevelIndex + 1;
+
+    const newProgressNodes = levels.map(level => ({
+      id: level.level,
+      completed: level.level < currentLevelNumber,
+      current: level.level === currentLevelNumber,
+    }));
+    setProgressNodes(newProgressNodes);
+  }, []);
   return (
     <div className="nnc-root">
       {/* Header */}
       <header className="nnc-header">
         <div className="nnc-logo">logo</div>
         <nav className="nnc-nav">
-          <span>Home</span>
-          <span>Levels</span>
+          <Link to="/"><span>Home</span></Link>
+          <Link to="/play"><span>Levels</span></Link>
           <span>Achievements</span>
           <span>Profile</span>
         </nav>
         <div className="nnc-user-info">
           <FaUserCircle className="nnc-user-avatar" />
           <span className="nnc-user-stars"><FaStar /> 1,240</span>
-          <button className="nnc-play-btn">Play Now</button>
+          <Link to="/play"><button className="nnc-play-btn">Play Now</button></Link>
         </div>
       </header>
 
@@ -69,7 +65,7 @@ const NeuralNexusChallenge = () => {
                 className={`nnc-path-node${node.completed ? " completed" : ""}${node.current ? " current" : ""}`}
               >
                 {node.completed && <FaCheckCircle />}
-                {node.current && !node.completed && <FaRegClock />}
+                {node.current && !node.completed && <FaRegClock onClick={() => navigate('/play')} />}
                 {!node.completed && !node.current && <span className="nnc-node-lock" />}
               </span>
             ))}
@@ -97,7 +93,7 @@ const NeuralNexusChallenge = () => {
           <div className="nnc-challenge-record">
             <div>Best Score:<span>720 points</span></div>
             <div>Best Time:<span>42 seconds</span></div>
-            <button className="nnc-start-btn">Start Challenge</button>
+            <Link to="/play"><button className="nnc-start-btn">Start Challenge</button></Link>
           </div>
         </section>
 

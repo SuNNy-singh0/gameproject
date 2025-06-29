@@ -1,0 +1,313 @@
+/* Desert Adventure Main Wrapper */
+.desert-adventure-wrapper {
+  width: 100vw;
+  height: 120vh;
+  background: linear-gradient(to bottom, #b3e0ff 0%, #ffeebb 100%);
+  
+  position: relative;
+  font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+}
+
+/* Sky Section */
+.desert-adventure-sky {
+  position: relative;
+  width: 100%;
+  height: 328px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+}
+
+/* Sun */
+.desert-adventure-sun {
+  position: fixed;
+  left: 24px;
+  top: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.desert-adventure-sun svg {
+  display: block;
+}
+.desert-adventure-sun-face {
+  position: absolute;
+  left: 22px;
+  top: 18px;
+  font-size: 2.2rem;
+  pointer-events: none;
+}
+
+/* Title */
+.desert-adventure-title {
+  margin: 0 auto;
+  font-size: 2.6rem;
+  font-weight: bold;
+  color: #ffa726;
+  text-align: center;
+  position: fixed;
+  z-index: 999;
+  width: 100%;
+  letter-spacing: 2px;
+  text-shadow: 1px 2px 0 #fff8e1, 0 4px 10px #fbc02d;
+  font-family: 'Pacifico', cursive, sans-serif;
+}
+
+/* Settings */
+.desert-adventure-settings {
+  position: absolute;
+  right: 32px;
+  top: 32px;
+  cursor: pointer;
+}
+
+/* Map Area */
+.desert-adventure-map {
+  position: relative;
+  width: 100vw;
+  height: calc(100vh - 120px);
+  min-height: 500px;
+}
+
+/* Sand Base */
+.desert-adventure-sand {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 220px;
+  background: radial-gradient(ellipse at 50% 80%, #ffe066 70%, #ffecb3 100%);
+  border-top-left-radius: 180px 80px;
+  border-top-right-radius: 260px 100px;
+  z-index: 1;
+}
+
+/* Planks */
+.desert-adventure-plank {
+  position: absolute;
+  background: #e0c08d;
+  border-radius: 30px;
+  box-shadow: 0 8px 16px #bca16a77;
+  height: 40px;
+  z-index: 2;
+}
+.desert-adventure-plank1 {
+  width: 520px;
+  left: 0;
+  top: 320px;
+  transform: rotate(-15deg);
+}
+.desert-adventure-plank2 {
+  width: 420px;
+  left: 380px;
+  top: 170px;
+  transform: rotate(20deg);
+}
+.desert-adventure-plank3 {
+  width: 340px;
+  left: 700px;
+  top: 100px;
+  transform: rotate(12deg);
+}
+.desert-adventure-plank4 {
+  width: 420px;
+  left: 620px;
+  top: 320px;
+  transform: rotate(-25deg);
+}
+
+/* Cacti */
+.desert-adventure-cactus {
+  position: absolute;
+  background: #32c671;
+  border-radius: 10px;
+  z-index: 3;
+}
+.desert-adventure-cactus1 {
+  width: 16px;
+  height: 60px;
+  left: 110px;
+  bottom: 180px;
+}
+.desert-adventure-cactus2 {
+  width: 12px;
+  height: 40px;
+  left: 340px;
+  bottom: 90px;
+}
+.desert-adventure-cactus3 {
+  width: 13px;
+  height: 55px;
+  left: 580px;
+  bottom: 150px;
+}
+.desert-adventure-cactus4 {
+  width: 14px;
+  height: 48px;
+  left: 800px;
+  bottom: 100px;
+}
+
+/* Levels Positioning (Desktop: absolute, Mobile: vertical flex) */
+.desert-adventure-levels {
+  position: absolute;
+  width: 100vw;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 4;
+}
+
+.desert-adventure-level {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  box-shadow: 0 6px 16px #0002;
+  font-size: 1.6rem;
+  transition: transform 0.2s;
+  user-select: none;
+}
+.desert-adventure-level-completed {
+  background: #ffe066;
+  color: #a67c00;
+  border: 3px solid #ffe066;
+  z-index: 5;
+}
+.desert-adventure-level-current {
+  background: #4fc3f7;
+  color: #fff;
+  border: 3px solid #0288d1;
+  z-index: 6;
+}
+.desert-adventure-level-locked {
+  background: #90a4ae;
+  color: #37474f;
+  border: 3px solid #607d8b;
+  z-index: 5;
+  opacity: 0.95;
+}
+.desert-adventure-level-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.desert-adventure-level-number {
+  font-weight: bold;
+  font-size: 1.7rem;
+}
+.desert-adventure-level-lock {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.2rem;
+}
+.desert-adventure-level-flag {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  font-size: 1.2rem;
+}
+.desert-adventure-level-stars {
+  position: absolute;
+  top: -26px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.3rem;
+  color: #ffd700;
+  letter-spacing: 2px;
+}
+
+/* Level Positions (example, adjust as needed for perfect match) */
+.desert-adventure-level-1 { left: 90px; bottom: 90px; }
+.desert-adventure-level-2 { left: 180px; bottom: 110px; }
+.desert-adventure-level-3 { left: 270px; bottom: 130px; }
+.desert-adventure-level-4 { left: 370px; bottom: 150px; }
+.desert-adventure-level-5 { left: 470px; bottom: 180px; }
+.desert-adventure-level-6 { left: 570px; bottom: 210px; }
+.desert-adventure-level-7 { left: 670px; bottom: 240px; }
+.desert-adventure-level-8 { left: 770px; bottom: 270px; }
+.desert-adventure-level-9 { left: 870px; bottom: 300px; }
+.desert-adventure-level-10 { left: 970px; bottom: 330px; }
+.desert-adventure-level-11 { left: 870px; bottom: 380px; }
+.desert-adventure-level-12 { left: 770px; bottom: 410px; }
+.desert-adventure-level-13 { left: 670px; bottom: 440px; }
+.desert-adventure-level-14 { left: 570px; bottom: 470px; }
+.desert-adventure-level-15 { left: 470px; bottom: 500px; }
+.desert-adventure-level-16 {     left: 545px; bottom: 572px;}
+.desert-adventure-level-17 { left: 620px; bottom: 620px; }
+.desert-adventure-level-18 { left: 700px; bottom: 650px; }
+.desert-adventure-level-19 { left: 780px; bottom: 670px; }
+.desert-adventure-level-20 { left: 900px; bottom: 700px; }
+
+/* Responsive: Mobile Vertical Layout */
+@media (max-width: 700px) {
+  .desert-adventure-map {
+    min-height: unset;
+    height: auto;
+  }
+  .desert-adventure-levels {
+    position: static;
+    width: 100vw;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding-top: 30px;
+    padding-bottom: 80px;
+  }
+  .desert-adventure-level {
+    position: static;
+    margin-bottom: 0;
+    margin-top: 0;
+    left: unset !important;
+    bottom: unset !important;
+    width: 60px;
+    height: 60px;
+  }
+  .desert-adventure-level-left {
+    align-self: flex-start;
+    margin-left: 18vw;
+  }
+  .desert-adventure-level-right {
+    align-self: flex-end;
+    margin-right: 18vw;
+  }
+  .desert-adventure-plank, .desert-adventure-cactus {
+    display: none;
+  }
+  .desert-adventure-sand {
+    height: 120px;
+    border-top-left-radius: 70px 40px;
+    border-top-right-radius: 90px 50px;
+  }
+  .desert-adventure-sun {
+    position: fixed;
+    left: 20px;
+    top: 67px;
+    display: flex
+;
+    flex-direction: column;
+    align-items: center;
+}
+.desert-adventure-title {
+    text-align: left;
+}
+.desert-adventure-wrapper {
+    width: 100vw;
+    height: 100%;
+    background: linear-gradient(to bottom, #b3e0ff 0%, #ffeebb 100%);
+    
+    position: relative;
+    font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+  }
+}

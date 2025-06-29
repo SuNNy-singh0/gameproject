@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import "./GameLevel.css";
 import levels from "../data/levels.json";
 import { FaHome, FaRedo, FaArrowRight, FaArrowLeft, FaClock, FaCheckCircle } from 'react-icons/fa';
@@ -11,7 +12,10 @@ const NEXT_LEVEL_DELAY = 8;
 
 export default function GameLevel() {
   const [gamePhase, setGamePhase] = useState("start"); // 'start', 'showing', 'guessing', 'gameOver', 'won'
-  const [currentLevel, setCurrentLevel] = useState(0);
+  const [currentGameLevel, setCurrentGameLevel] = useState(() => {
+    const savedLevel = localStorage.getItem('currentGameLevel');
+    return savedLevel !== null ? parseInt(savedLevel, 10) : 0;
+  });
   const [sequence, setSequence] = useState([]);
   const [revealedDots, setRevealedDots] = useState([]);
   const [userGuesses, setUserGuesses] = useState([]);
@@ -26,8 +30,10 @@ export default function GameLevel() {
   const startGame = (levelIndex) => {
     clearInterval(countdownRef.current);
     const levelData = levels[levelIndex];
-    setSequence(levelData.sequence);
-    setCurrentLevel(levelIndex);
+    // Convert 1-based sequence to 0-based for internal use
+    const zeroBasedSequence = levelData.sequence.map(num => num - 1);
+    setSequence(zeroBasedSequence);
+    setCurrentGameLevel(levelIndex);
     setGamePhase("showing");
     setRevealedDots([]);
     setUserGuesses([]);
@@ -37,8 +43,9 @@ export default function GameLevel() {
   };
 
   useEffect(() => {
-    startGame(currentLevel);
-  }, [currentLevel]);
+    localStorage.setItem('currentGameLevel', currentGameLevel);
+    startGame(currentGameLevel);
+  }, [currentGameLevel]);
 
   useEffect(() => {
     if (gamePhase === "won") {
@@ -69,8 +76,8 @@ export default function GameLevel() {
         return () => clearTimeout(showTimer);
       } else {
         setTimeout(() => {
-          setRevealedDots([]); // Hide dots before guessing
-          setGamePhase("guessing");
+          // Do NOT clear revealedDots; keep initial dots visible
+          setGamePhase("readyToGuess"); // Wait for user to start
           setCurrentStep(0); // Reset step for guessing phase
         }, 700)
       }
@@ -117,10 +124,10 @@ export default function GameLevel() {
   };
 
   const handleLevelChange = (direction) => {
-    let nextLevel = currentLevel + direction;
+    let nextLevel = currentGameLevel + direction;
     if(nextLevel < 0) nextLevel = 0;
     if(nextLevel >= levels.length) nextLevel = 0; // Or loop to first level
-    setCurrentLevel(nextLevel);
+    setCurrentGameLevel(nextLevel);
   }
 
   const renderGrid = () => {
@@ -146,6 +153,22 @@ export default function GameLevel() {
   };
 
   const renderPopup = () => {
+    if (gamePhase === 'readyToGuess') {
+      return (
+        <div className="gamelevel-popup-overlay">
+          <div className="gamelevel-popup">
+            <h2>Ready?</h2>
+            <p>Memorize the dots, then click below to start guessing!</p>
+            <div className="popup-controls">
+              <button className="gamelevel-btn gamelevel-btn-retry" onClick={() => setGamePhase('guessing')}>
+                Start Game
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     if(gamePhase !== 'gameOver' && gamePhase !== 'won') return null;
 
     const isGameOver = gamePhase === 'gameOver';
@@ -160,12 +183,12 @@ export default function GameLevel() {
           <p>{message}</p>
           <div className="popup-controls">
             {isGameOver ? (
-              <button className="gamelevel-btn gamelevel-btn-retry" onClick={() => startGame(currentLevel)}>
+              <button className="gamelevel-btn gamelevel-btn-retry" onClick={() => startGame(currentGameLevel)}>
                 <FaRedo /> Play Again
               </button>
             ) : (
               <>
-                <button className="gamelevel-btn" onClick={() => setCurrentLevel(0)}><FaHome/> Home</button>
+                <Link to="/"><button className="gamelevel-btn"><FaHome/> Home</button></Link>
                 <button className="gamelevel-btn" onClick={() => handleLevelChange(1)}><FaArrowRight/> Next Level</button>
               </>
             )}
@@ -180,7 +203,7 @@ export default function GameLevel() {
       {renderPopup()}
 
       <div className="gamelevel-header">
-        <div className="gamelevel-level-badge">Level {levels[currentLevel].level}</div>
+        <div className="gamelevel-level-badge">Level {levels[currentGameLevel].level}</div>
       </div>
 
       <div className="gamelevel-timer-stars">
@@ -198,7 +221,7 @@ export default function GameLevel() {
 
       <div className="gamelevel-controls">
         <button className="gamelevel-btn" onClick={() => handleLevelChange(-1)}><FaArrowLeft/> Prev</button>
-        <button className="gamelevel-btn gamelevel-btn-retry" onClick={() => startGame(currentLevel)} disabled={gamePhase === 'showing'}>
+        <button className="gamelevel-btn gamelevel-btn-retry" onClick={() => startGame(currentGameLevel)} disabled={gamePhase === 'showing'}>
           <FaRedo /> Retry
         </button>
         <button className="gamelevel-btn" onClick={() => handleLevelChange(1)}><FaArrowRight/> Next</button>
